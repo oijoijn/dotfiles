@@ -31,7 +31,7 @@ require("lazy").setup({
     { import = "plugins.telescope" },
     { import = "plugins.which-key" },
     -- { import = "plugins.lsp.lsp" },
-    { import = "plugins.scheme" },
+    -- { import = "plugins.scheme" },
     { import = "plugins.luasnip" },
     { "vim-jp/vimdoc-ja" },
   },
