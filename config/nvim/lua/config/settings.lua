@@ -30,7 +30,7 @@ vim.opt.undofile = true
 vim.opt.writebackup = false
 
 -- 24bit colorを有効
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 
 -- コメントアウトの色
 vim.api.nvim_set_hl(0, "Comment", { fg = "#c2721a", italic = true })

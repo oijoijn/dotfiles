@@ -34,10 +34,10 @@ setup_up() {
 
     # --- .zsh_export ---
     if [ -e ~/.zsh_export ] || [ -L ~/.zsh_export ]; then
-        echo "Backing up existing .zsh_aliases to ~/.zsh_aliases.bak"
+        echo "Backing up existing .zsh_export to ~/.zsh_export.bak"
         mv ~/.zsh_export ~/.zsh_export.bak
     fi
-    echo "Linking .zsh_aliases"
+    echo "Linking .zsh_export"
     ln -snf "$DOTFILES_DIR/config/zsh/zsh_export" ~/.zsh_export
 
     # --- .tmux.conf ---
@@ -90,7 +90,7 @@ setup_down() {
         mv ~/.zsh_aliases.bak ~/.zsh_aliases
     fi
 
-    # --- .zsh_aliases ---
+    # --- .zsh_export ---
     if [ -L ~/.zsh_export ]; then
         echo "Removing link for .zsh_export"
         rm ~/.zsh_export
