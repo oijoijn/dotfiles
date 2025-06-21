@@ -8,9 +8,9 @@ alias l='ls -CF'
 setup_tmux() {
   if ! tmux has-session -t config 2>/dev/null; then
 	  tmux new-session -d -s config -n nvim
-	  tmux send-keys -t config:nvim "cd $HOME/.config/nvim/lua; nvim " C-m
+	  tmux send-keys -t config:nvim "cd $HOME/dotfiles/config/nvim/lua; nvim " C-m
 	  tmux new-window -t config: -n tmux
-	  tmux send-keys -t config:tmux "nvim -p .tmux.conf .bash_aliases " C-m
+	  tmux send-keys -t config:tmux "nvim -p $HOME/dotfiles/config/tmux/tmux.conf $HOME/dotfiles/config/zsh/zsh_aliases  " C-m
   fi
 
   if ! tmux has-session -t workspase 2>/dev/null; then
