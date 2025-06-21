@@ -25,5 +25,5 @@ cd ~/dotfiles
 # 4. setup 設定ファイルがあればbakをとりシンボリックリンクを張る
 ./setup.sh up
 
-# 5. setup シンボリックリンクの削除とbacの復帰
+# 5. setup シンボリックリンクの削除とbakの復帰
 ./setup.sh down

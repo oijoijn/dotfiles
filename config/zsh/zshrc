@@ -122,3 +122,6 @@ bindkey "^[[A" up-line-or-beginning-search      # 矢印キー↑
 bindkey "^[[B" down-line-or-beginning-search    # 矢印キー↓
 bindkey "^p" up-line-or-beginning-search        # Ctrl-P
 bindkey "^n" down-line-or-beginning-search      # Ctrl-N
+
+# geep音
+unsetopt BEEP
