@@ -1,0 +1,177 @@
+return {
+    {
+        -- LSP設定プラグイン
+        "neovim/nvim-lspconfig",
+        event = "FileType",
+        dependencies = {
+            {
+                "williamboman/mason.nvim",
+                opts = {
+                    ui = {
+                        icons = {
+                            package_installed = "✓",
+                            package_pending = "➜",
+                            package_uninstalled = "✗"
+                        }
+                    }
+                }
+            },
+            "williamboman/mason-lspconfig.nvim",
+            "hrsh7th/nvim-cmp",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
+
+            "hrsh7th/vim-vsnip",
+            "hrsh7th/vim-vsnip-integ",
+            "hrsh7th/cmp-vsnip",
+        },
+        config = function()
+            local lspconfig = require("lspconfig")
+            local mason_lspconfig = require("mason-lspconfig")
+            local cmp_nvim_lsp -- cmp_nvim_lsp は nvim-cmp のロード時に利用可能になる想定
+
+            local on_attach = function(client, bufnr)
+                if not cmp_nvim_lsp then cmp_nvim_lsp = require("cmp_nvim_lsp") end
+                local capabilities = cmp_nvim_lsp.default_capabilities()
+                local opts = { noremap = true, silent = true, buffer = bufnr }
+                -- キーマップ (変更なし)
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+                vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+                vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
+                vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+                vim.keymap.set("n", "<space>wl", function()
+                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+                end, opts)
+                vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+                vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+                vim.keymap.set("n", "<space>cc", vim.lsp.buf.code_action, opts)
+                vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+            end
+
+            -- MasonでインストールするLSPサーバー
+            mason_lspconfig.setup({
+                ensure_installed = {
+                    "lua_ls",
+                    "pyright",
+                    "rust_analyzer",
+                    "ts_ls",
+                    "gopls",
+                    "clangd",
+                }
+            })
+
+            -- 各LSPサーバーの設定
+            mason_lspconfig.setup_handlers({
+                -- デフォルトハンドラ
+                function(server_name)
+                    if not cmp_nvim_lsp then cmp_nvim_lsp = require("cmp_nvim_lsp") end
+                    local capabilities = cmp_nvim_lsp.default_capabilities()
+                    lspconfig[server_name].setup({
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                    })
+                end,
+                -- LuaLS用の特別な設定
+                ["lua_ls"] = function()
+                    if not cmp_nvim_lsp then cmp_nvim_lsp = require("cmp_nvim_lsp") end
+                    local capabilities = cmp_nvim_lsp.default_capabilities()
+                    lspconfig.lua_ls.setup({
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        settings = {
+                            Lua = {
+                                runtime = { version = "LuaJIT" },
+                                diagnostics = { globals = { "vim" } },
+                                workspace = { checkThirdParty = false },
+                                telemetry = { enable = false },
+                            }
+                        }
+                    })
+                end,
+            })
+        end
+    },
+
+    -- nvim-cmp設定 (補完は InsertEnter でロード)
+    {
+        "hrsh7th/nvim-cmp",
+        event = "InsertEnter", -- Insertモード開始時にロード
+        config = function()
+            local cmp = require("cmp")
+            cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        vim.fn["vsnip#anonymous"](args.body)
+                    end,
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-e>"] = cmp.mapping.abort(),
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                }),
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp" },
+                    { name = "vsnip" },
+                    { name = "buffer" },
+                    { name = "path" },
+                    -- { name = "cmdline" } -- cmdline は別途 setup.cmdline で設定推奨
+                })
+            })
+             -- コマンドライン補完の設定 (オプション)
+            -- cmp.setup.cmdline('/', { ... })
+            -- cmp.setup.cmdline(':', { ... })
+        end
+        -- dependencies は nvim-lspconfig の方に記述されているので不要 (読み込まれる)
+    },
+
+    -- Treesitter + nvim-ts-autotag 設定 (VeryLazy が一般的)
+    {
+        "nvim-treesitter/nvim-treesitter",
+        event = "VeryLazy", -- または BufReadPre
+        dependencies = {
+            {
+                "windwp/nvim-ts-autotag",
+                -- ft = { ... } -- 特定ファイルタイプのみ有効にする場合
+            }
+        },
+        build = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                highlight = { enable = true },
+                indent = { enable = true },
+                autotag = { enable = true },
+                ensure_installed = {
+                    "lua", "vim", "vimdoc", "query",
+                    "c", "cpp", "python", "rust",
+                    "typescript", "javascript",
+                    "html", "css", "json", "yaml",
+                    "markdown", "markdown_inline", "bash", "go"
+                },
+                sync_install = false,
+                auto_install = true,
+            })
+        end
+    },
+
+    -- nvim-autopairs 設定 (InsertEnter で OK)
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        opts = {} -- config = function() ... end の代わりに opts を使うことも可能
+        -- config = function()
+        --    require("nvim-autopairs").setup({})
+        --    -- nvim-cmp との連携が必要な場合
+        --    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+        --    local cmp = require('cmp')
+        --    cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+        -- end
+    }
+}
+

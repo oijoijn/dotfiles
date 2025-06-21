@@ -1,0 +1,17 @@
+return {
+  "monaqa/dial.nvim",
+  config = function()
+    -- dial.map を直接 require する
+    local dial_map = require("dial.map")
+
+    local set = vim.keymap.set
+    set("n", "<C-a>", function() dial_map.manipulate("increment", "normal") end)
+    set("n", "<C-x>", function() dial_map.manipulate("decrement", "normal") end)
+    set("n", "g<C-a>", function() dial_map.manipulate("increment", "gnormal") end)
+    set("n", "g<C-x>", function() dial_map.manipulate("decrement", "gnormal") end)
+    set("v", "<C-a>", function() dial_map.manipulate("increment", "visual") end)
+    set("v", "<C-x>", function() dial_map.manipulate("decrement", "visual") end)
+    set("v", "g<C-a>", function() dial_map.manipulate("increment", "gvisual") end)
+    set("v", "g<C-x>", function() dial_map.manipulate("decrement", "gvisual") end)
+  end,
+}

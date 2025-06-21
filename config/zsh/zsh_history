@@ -1,0 +1,23 @@
+: 1750409099:0;ls -al
+: 1750409099:0;mkdir dotfiles/config/zsh
+: 1750409099:0;cp .z* dotfiles/config/zsh
+: 1750409099:0;cd dotfiles/config/zsh
+: 1750409099:0;cd config
+: 1750409099:0;cd zsh
+: 1750409099:0;la
+: 1750409099:0;ls -a
+: 1750409099:0;cd ..
+: 1750409099:0;sl
+: 1750409099:0;ni setup.sh
+: 1750409099:0;ni 
+: 1750409099:0;nvim
+: 1750409099:0;which nvim
+: 1750409099:0;cd snap
+: 1750409099:0;echo $PATH
+: 1750409099:0;echo $PATH | grep snap
+: 1750409099:0;cd
+: 1750409099:0;cd dotfiles
+: 1750409099:0;ls
+: 1750409099:0;bash
+: 1750409099:0;cd /home/so_lab/.config/nvim/lua; nvim 
+: 1750409099:0;nvim -p .tmux.conf .bash_aliases 

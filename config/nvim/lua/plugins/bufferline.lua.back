@@ -1,0 +1,30 @@
+return {
+    {
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function()
+            require('bufferline').setup {
+                options = {
+                    offsets = {
+                        { filetype = "NvimTree", text = "File Explorer", highlight = "Directory", text_align = "left" },
+                    },
+                    diagnostics = "nvim_lsp",
+                    hover = {
+                        enabled = true,
+                        delay = 200,
+                        reveal = {'close'}
+                    }
+                },
+            }
+            -- キーマップ設定
+            local set = vim.keymap.set
+            set('n', '<C-h>', '<Cmd>BufferLineCyclePrev<CR>')      -- 前のバッファ
+            set('n', '<C-l>', '<Cmd>BufferLineCycleNext<CR>')      -- 次のバッファ
+            set('n', 'b[', '<Cmd>BufferLineMovePrev<CR>')     -- バッファ左移動
+            set('n', 'b]', '<Cmd>BufferLineMoveNext<CR>')     -- バッファ右移動
+            set('n', '<leader>ch', '<CMD>BufferLineCloseLeft<CR>') -- 左側を全閉じ
+            set('n', '<leader>cl', '<CMD>BufferLineCloseRight<CR>')-- 右側を全閉じ
+        end
+    }
+}

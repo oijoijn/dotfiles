@@ -1,6 +1,6 @@
 # My Dotfiles
 
-これは私の個人の設定ファイル（dotfiles）リポジトリです。
+dotfilesリポジトリ
 
 ## 管理対象
 
@@ -12,7 +12,7 @@
 
 新しいマシンでセットアップするには、以下のコマンドを実行します。
 
-```sh
+```zsh
 # 1. リポジトリをクローン
 git clone git@github.com:oijoijn/dotfiles.git ~/dotfiles
 
@@ -21,4 +21,9 @@ cd ~/dotfiles
 
 # 3. インストールスクリプトを実行
 ./install.sh
-# dotfiles
+
+# 4. setup 設定ファイルがあればbakをとりシンボリックリンクを張る
+./setup.sh up
+
+# 5. setup シンボリックリンクの削除とbacの復帰
+./setup.sh down

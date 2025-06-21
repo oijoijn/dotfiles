@@ -1,0 +1,27 @@
+#alias
+alias ni='/snap/bin/nvim'
+alias ...='../..'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+setup_tmux() {
+  if ! tmux has-session -t config 2>/dev/null; then
+	  tmux new-session -d -s config -n nvim
+	  tmux send-keys -t config:nvim "cd $HOME/.config/nvim/lua; nvim " C-m
+	  tmux new-window -t config: -n tmux
+	  tmux send-keys -t config:tmux "nvim -p .tmux.conf .bash_aliases " C-m
+  fi
+
+  if ! tmux has-session -t workspase 2>/dev/null; then
+	  tmux new-session -d -s workspase -n work
+  fi
+
+  tmux attach-session -t workspase
+}
+
+alias ts='setup_tmux'
+alias tk='tmux kill-server'
+alias ta='tmux a'
+alias kde='kubectl describe'
+alias zr='source ~/.zshrc'
