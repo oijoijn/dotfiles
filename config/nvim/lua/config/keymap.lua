@@ -16,8 +16,8 @@ set('i', '<C-l>', '<C-o>x')
 set('n', 'H', '^')
 set('n', 'L', '$')
 set('n', '<Leader>ya', '<Cmd>%y<CR>')
-set('n', 'vap', 'gg<S-v>Gp')
-set('n', 'vaa', 'gg<S-v>G')
+set('n', '<Leader>vap', 'gg<S-v>Gp')
+set('n', '<Leader>vaa', 'gg<S-v>G')
 set('n', '<Leader>m', '`')
 set('n', 'G', 'Gzz')
 set('n', 'n', 'nzz', { noremap = true, silent = true, desc = "Next search result (center)" })
@@ -55,7 +55,7 @@ set('n', '<leader>hl', '<Cmd>Lazy<CR>')
 set('n', '<leader>hm', '<Cmd>Mason<CR>')
 
 -- ヤンクの挙動
-set('n', 'dp', 'ms<Cmd>lua vim.cmd("%s/\\r//g")<CR>`s', {desc='delete ^M', noremap = true, silent = true })
+set('n', '<leader>dp', 'ms<Cmd>lua vim.cmd("%s/\\r//g")<CR>`s', {desc='delete ^M', noremap = true, silent = true })
 set('n', '<S-y>','y$')
 
 -- 矩形
