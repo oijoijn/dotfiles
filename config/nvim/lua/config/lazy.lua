@@ -19,6 +19,7 @@ require("lazy").setup({
     -- { import = "plugins.bufferline" },
     -- { import = "plugins.close-buffers" },
     -- { import = "plugins.dashboard-nvim" },
+    { import = "plugins.rest-nvim" },
     { import = "plugins.toggleterm" },
     { import = "plugins.Comment" },
     { import = "plugins.gitsigns" },
