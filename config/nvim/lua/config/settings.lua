@@ -2,7 +2,7 @@
 vim.opt.clipboard:append{'unnamedplus'}
 
 -- 行番号
-vim.opt.number = true
+-- vim.opt.number = true
 
 -- タブとインデントの設定
 vim.opt.tabstop = 4

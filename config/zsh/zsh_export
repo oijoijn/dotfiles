@@ -1,5 +1,6 @@
 # snapの設定
 export PATH=$PATH:/snap/bin
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 #goの設定
 export GOENV_ROOT="$HOME/.goenv"
@@ -7,4 +8,3 @@ export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
-

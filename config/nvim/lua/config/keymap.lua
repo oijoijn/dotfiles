@@ -41,6 +41,8 @@ set('n', '<C-u>', '<C-u>zz')
 
 -- un分割
 set('n', '<leader>wt', '<C-w><S-t>')
+set('n', '<leader>vs', '<C-w>v')
+set('n', '<leader>sp', '<C-w>s')
 
 -- tab
 set("n", "[t", "<Cmd>tabmove -1<CR>", { desc = "Tab ←" })

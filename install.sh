@@ -66,3 +66,4 @@ fi
 echo "----------------------------------------"
 echo "Package installation finished."
 echo "========================================"
+npm install -g @devcontainers/cli
