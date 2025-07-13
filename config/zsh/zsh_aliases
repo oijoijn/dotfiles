@@ -1,4 +1,6 @@
-#alias
+# ──────────────────────────────────────────────
+# 基本 alias
+# ──────────────────────────────────────────────
 alias ni='/snap/bin/nvim'
 alias ...='../..'
 alias sl='ls'
@@ -6,25 +8,31 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# ──────────────────────────────────────────────
+# tmux 関連
+# ──────────────────────────────────────────────
 setup_tmux() {
+  # 設定ファイル編集セッション
   if ! tmux has-session -t config 2>/dev/null; then
     tmux new-session -d -s config -n nvim
-    tmux send-keys -t config:nvim "cd $HOME/.config/nvim/lua; nvim " C-m
+    tmux send-keys -t config:nvim "cd \$HOME/.config/nvim/lua; nvim " C-m
     tmux new-window -t config: -n tmux
-    tmux send-keys -t config:tmux "cd $HOME; nvim -p .tmux.conf .zsh_aliases " C-m
+    tmux send-keys -t config:tmux "cd \$HOME; nvim -p .tmux.conf .zsh_aliases " C-m
     tmux new-window -t config: -n dotfiles
-    tmux send-keys -t config:dotfiles "cd $HOME/dotfiles/; nvim " C-m
+    tmux send-keys -t config:dotfiles "cd \$HOME/dotfiles/; nvim " C-m
   fi
 
+  # q-learning 開発セッション
   if ! tmux has-session -t q-learning 2>/dev/null; then
     tmux new-session -d -s q-learning -n sotomine
-    tmux send-keys -t q-learning:sotomine "cd $HOME/workspace/python/q-learning/gemini && source .activate" C-m
+    tmux send-keys -t q-learning:sotomine "cd \$HOME/workspace/python/q-learning/gemini && source .activate" C-m
     tmux new-window -t q-learning: -n suruga
-    tmux send-keys -t q-learning:suruga "cd $HOME/workspace/python/q-learning/suruga && source .activate" C-m
+    tmux send-keys -t q-learning:suruga "cd \$HOME/workspace/python/q-learning/suruga && source .activate" C-m
     tmux new-window -t q-learning: -n takeoka
-    tmux send-keys -t q-learning:takeoka "cd $HOME/workspace/python/q-learning/takeoka && source .activate" C-m
+    tmux send-keys -t q-learning:takeoka "cd \$HOME/workspace/python/q-learning/takeoka && source .activate" C-m
   fi
 
+  # 汎用ワークスペース
   if ! tmux has-session -t workspase 2>/dev/null; then
     tmux new-session -d -s workspase -n work
   fi
@@ -38,5 +46,27 @@ alias ta='tmux attach-session -t workspase'
 alias kde='kubectl describe'
 alias zr='source ~/.zshrc'
 
-alias cci='mkdir -p ./cmd/api ./internal/{config,domain/{model,repository},usecase,infrastructure/{persistence,messaging,router},interface/handler}'
+# Go / Clean Architecture 用ディレクトリ一括生成
+alias cca='mkdir -p ./app domain internal/{repository/mysql,rest} todo/mocks '
 
+# ──────────────────────────────────────────────
+# Dev Container + Neovim（個人設定を後乗せ）
+# ──────────────────────────────────────────────
+
+devup () {
+  devcontainer up \
+    --additional-features='{
+      "ghcr.io/duduribeiro/devcontainer-features/neovim:1": { "version": "stable" },
+      "ghcr.io/devcontainers/features/node:1":              {},
+      "ghcr.io/devcontainers/features/python:1":            { "version": "system" }
+    }' \
+    --mount "type=bind,source=$HOME/dotfiles/config/nvim,target=/nvim-config/nvim" \
+    --workspace-folder .
+}
+
+devexec() {
+  devcontainer exec \
+    --remote-env "XDG_CONFIG_HOME=/nvim-config" \
+    --workspace-folder . \
+    /bin/bash -l   # ← -l を付けるだけ
+}
