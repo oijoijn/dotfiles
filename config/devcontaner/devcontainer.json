@@ -1,9 +1,0 @@
-{
-  "features": {
-    "ghcr.io/devcontainers/features/dotfiles:1": {
-      "repository": "https://github.com/oijoijn/dotfiles.git",
-      "installCommand": "bash test.sh", 
-      "targetPath": "~/dotfiles"
-    }
-  }
-}
