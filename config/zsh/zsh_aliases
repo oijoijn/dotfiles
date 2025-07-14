@@ -55,11 +55,7 @@ alias cca='mkdir -p ./app domain internal/{repository/mysql,rest} todo/mocks '
 
 devup () {
   devcontainer up \
-    --additional-features='{
-      "ghcr.io/duduribeiro/devcontainer-features/neovim:1": { "version": "stable" },
-      "ghcr.io/devcontainers/features/node:1":              {},
-      "ghcr.io/devcontainers/features/python:1":            { "version": "system" }
-    }' \
+    --override-config "$HOME/dotfiles/config/devcontainer/devcontainer.json" \
     --mount "type=bind,source=$HOME/dotfiles/config/nvim,target=/nvim-config/nvim" \
     --workspace-folder .
 }
