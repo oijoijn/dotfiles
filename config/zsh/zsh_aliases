@@ -8,6 +8,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias cca='mkdir -p ./app domain internal/{repository/mysql,rest} todo/mocks '
 # ──────────────────────────────────────────────
 # tmux 関連
 # ──────────────────────────────────────────────
@@ -31,13 +32,14 @@ setup_tmux() {
     tmux new-window -t q-learning: -n takeoka
     tmux send-keys -t q-learning:takeoka "cd \$HOME/workspace/python/q-learning/takeoka && source .activate" C-m
   fi
-
   # 汎用ワークスペース
   if ! tmux has-session -t workspase 2>/dev/null; then
-    tmux new-session -d -s workspase -n work
+    tmux new-session -d -s workspase -n work    # 1 個目 (work)
+    tmux new-window  -t workspase: -n todo      # 2 個目 (todo)
+    tmux send-keys   -t workspase:todo 'nvim todo.txt' C-m
   fi
 
-  tmux attach-session -t workspase
+  tmux attach -t workspase:todo
 }
 
 alias ts='setup_tmux'
@@ -46,8 +48,6 @@ alias ta='tmux attach-session -t workspase'
 alias kde='kubectl describe'
 alias zr='source ~/.zshrc'
 
-# Go / Clean Architecture 用ディレクトリ一括生成
-alias cca='mkdir -p ./app domain internal/{repository/mysql,rest} todo/mocks '
 
 # ──────────────────────────────────────────────
 # Dev Container + Neovim（個人設定を後乗せ）

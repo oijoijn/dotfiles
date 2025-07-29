@@ -95,7 +95,8 @@ return {
                     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
                     vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
-
+                    vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts) -- 次のエラーへ
+                    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts) -- 前のエラーへ
                     -- フォーマット (Normal: バッファ全体, Visual: 選択範囲)
                     vim.keymap.set("n", "<leader>=", function()
                         vim.lsp.buf.format({ async = true })

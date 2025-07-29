@@ -51,3 +51,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
         vim.cmd("startinsert")                -- ターミナル起動時に自動的に insert mode にする
     end,
 })
+
+-- vim.opt.termguicolors = true
+-- vim.opt.winblend = 0 -- ウィンドウの不透明度
+-- vim.opt.pumblend = 0 -- ポップアップメニューの不透明度
