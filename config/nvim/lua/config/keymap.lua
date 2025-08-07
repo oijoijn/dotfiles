@@ -15,7 +15,6 @@ set('i', '<C-l>', '<C-o>x')
 
 set('n', 'H', '^')
 set('n', 'L', '$')
-set('n', '<Leader>ya', '<Cmd>%y<CR>')
 set('n', '<Leader>vap', 'gg<S-v>Gp')
 set('n', '<Leader>vaa', 'gg<S-v>G')
 set('n', '<Leader>m', '`')
@@ -26,12 +25,16 @@ set('n', 'N', 'Nzz', { noremap = true, silent = true, desc = "Previous search re
 set('v', 'H', '^')
 set('v', 'L', '$')
 
+-- all
+set('n', '<Leader>ay', '<Cmd>%y<CR>', { desc = 'All yank' })
+set('n', '<leader>ac', '<Cmd>qa<CR>', { desc = 'All close' })
+set('n', '<leader>ad', '<Cmd>%d<CR>', { desc = 'All delete' })
+
 -- 保存
 set('n', '<leader>w', '<Cmd>w<CR>')
 set('n', '<leader>q', '<Cmd>q<CR>')
-set('n', '<leader>k', '<Cmd>q!<CR>')
+set('n', '<leader>kk', '<Cmd>q!<CR>')
 set('n', '<leader>x', '<Cmd>x<CR>')
-set('n', '<leader>ac', '<Cmd>qa<CR>')
 
 -- 画面操作
 set('n', '<C-h>', 'gT')
@@ -47,24 +50,27 @@ set('n', '<leader>sp', '<C-w>s')
 -- tab
 set("n", "[t", "<Cmd>tabmove -1<CR>", { desc = "Tab ←" })
 set("n", "]t", "<Cmd>tabmove +1<CR>", { desc = "Tab →" })
+
 -- buffer
 set("n", "[b", "<Cmd>bprevious<CR>", { desc = "Prev buffer" })
-set("n", "]b", "<Cmd>bnext<CR>",    { desc = "Next buffer" })
+set("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
 
 -- nvimの調査
 set('n', '<leader>hh', '<Cmd>checkhealth<CR>')
 set('n', '<leader>hl', '<Cmd>Lazy<CR>')
 set('n', '<leader>hm', '<Cmd>Mason<CR>')
 
--- ヤンクの挙動
-set('n', '<leader>dp', 'ms<Cmd>lua vim.cmd("%s/\\r//g")<CR>`s', {desc='delete ^M', noremap = true, silent = true })
-set('n', '<S-y>','y$')
+-- yankの挙動
+set('n', '<leader>dp', 'ms<Cmd>lua vim.cmd("%s/\\r//g")<CR>`s', { desc = 'delete ^M', noremap = true, silent = true })
+set('n', '<S-y>', 'y$')
+set('n', '<leader>y', '"ay')
+
+-- pasteの挙動
+set({ 'n', 'v' }, '<leader>p', '"ap')
 
 -- 矩形
-set('n', '<C-A-v>', '<C-v>', {desc='Keymap change visual mode'})
+set('n', '<C-A-v>', '<C-v>', { desc = 'Keymap change visual mode' })
 
--- delete
-set('n', '<leader>da', '<Cmd>%d<CR>', {desc='All delete'})
 
 -- terminal mode
 set('t', '<C-[>', [[<C-\><C-n>]], { desc = 'Exit terminal job mode' })
@@ -83,3 +89,11 @@ set('n', '<C-o>', '<C-o>zz')
 set('n', '<C-i>', '<C-i>zz')
 set('n', 'n', 'nzz')
 
+
+-- keymapの調査
+set("n", "<leader>kn", ":verbose nmap ", { noremap = true, desc = "Check Normal-mode map" })
+set("n", "<leader>kv", ":verbose vmap ", { noremap = true, desc = "Check Visual-mode map" })
+set("n", "<leader>ki", ":verbose imap ", { noremap = true, desc = "Check Insert-mode map" })
+set("n", "<leader>kx", ":verbose xmap ", { noremap = true, desc = "Check Visual-mode map (same as vmap)" })
+set("n", "<leader>ks", ":verbose smap ", { noremap = true, desc = "Check Select-mode map" })
+set("n", "<leader>kc", ":verbose cmap ", { noremap = true, desc = "Check Command-mode map" })
