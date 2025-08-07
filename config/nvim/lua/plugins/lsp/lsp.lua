@@ -1,11 +1,11 @@
 return {
-
     -- ───────────────────────────────────
     --  Neovim ネイティブ LSP ＋ Mason
     -- ───────────────────────────────────
     {
         "neovim/nvim-lspconfig",
-        lazy = false,
+        lazy = true,
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             { "williamboman/mason.nvim",           config = true },
             { "williamboman/mason-lspconfig.nvim", config = true },
@@ -28,7 +28,6 @@ return {
                     "pyright",
                     "ts_ls",
                     "clangd",
-                    "rust_analyzer",
                 },
                 automatic_installation = true,
             })
@@ -145,8 +144,6 @@ return {
                     expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<C-b>"]     = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"]     = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"]     = cmp.mapping.abort(),
                     ["<CR>"]      = cmp.mapping.confirm({ select = true }),
@@ -181,6 +178,8 @@ return {
                 },
                 sync_install     = false,
                 auto_install     = true,
+                modules = {},
+                ignore_install = {},
             })
         end,
     },
