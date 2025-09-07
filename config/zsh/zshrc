@@ -132,3 +132,5 @@ export NVM_DIR="$HOME/.nvm"
 
 # historyに記録しない
 setopt HIST_IGNORE_SPACE
+# 過去の履歴と重複
+setopt HIST_IGNORE_ALL_DUPS

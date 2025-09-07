@@ -4,14 +4,17 @@ local set = vim.keymap.set
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- 変更の適応
+set('n', '<Leader>sr', '<Cmd>source ~/dotfiles/config/nvim/init.lua<CR>', { desc = '[S]ource [R]eload Config' })
+
 -- キーマップファイルを開く
-set('n', '<Leader>m,', '<Cmd>edit ~/.config/nvim/lua/config/keymap.lua<CR>')
+set('n', '<Leader>so', '<Cmd>edit ~/.config/nvim/lua/config/keymap.lua<CR>')
 -- win
--- set('n', '<Leader>m,', '<Cmd>edit ~/AppData/Local/nvim/lua/config/keymap.lua<CR>')
+-- set('n', '<Leader>so', '<Cmd>edit ~/AppData/Local/nvim/lua/config/keymap.lua<CR>')
 
 -- 基本のキーマップ
 set('i', 'jj', '<Esc>')
-set('i', '<C-l>', '<C-o>x')
+set('i', '<C-k>', '<C-o>x')
 
 set('n', 'H', '^')
 set('n', 'L', '$')
@@ -26,9 +29,9 @@ set('v', 'H', '^')
 set('v', 'L', '$')
 
 -- all
-set('n', '<Leader>ay', '<Cmd>%y<CR>', { desc = 'All yank' })
-set('n', '<leader>ac', '<Cmd>qa<CR>', { desc = 'All close' })
-set('n', '<leader>ad', '<Cmd>%d<CR>', { desc = 'All delete' })
+set('n', '<Leader>ya', '<Cmd>%y<CR>', { desc = 'All yank' })
+set('n', '<leader>ca', '<Cmd>qa<CR>', { desc = 'All close' })
+set('n', '<leader>da', '<Cmd>%d<CR>', { desc = 'All delete' })
 
 -- 保存
 set('n', '<leader>w', '<Cmd>w<CR>')
@@ -61,7 +64,7 @@ set('n', '<leader>hl', '<Cmd>Lazy<CR>')
 set('n', '<leader>hm', '<Cmd>Mason<CR>')
 
 -- yankの挙動
-set('n', '<leader>dp', 'ms<Cmd>lua vim.cmd("%s/\\r//g")<CR>`s', { desc = 'delete ^M', noremap = true, silent = true })
+set('n', '<leader>dm', 'ms<Cmd>lua vim.cmd("%s/\\r//g")<CR>`s', { desc = 'delete ^M', noremap = true, silent = true })
 set('n', '<S-y>', 'y$')
 set('n', '<leader>y', '"ay')
 
@@ -88,7 +91,6 @@ set('n', '<leader>gu', 'g~')
 set('n', '<C-o>', '<C-o>zz')
 set('n', '<C-i>', '<C-i>zz')
 set('n', 'n', 'nzz')
-
 
 -- keymapの調査
 set("n", "<leader>kn", ":verbose nmap ", { noremap = true, desc = "Check Normal-mode map" })

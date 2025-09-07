@@ -16,6 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
+    { import = "plugins.lsp.lsp" },
     -- { import = "plugins.bufferline" },
     -- { import = "plugins.close-buffers" },
     -- { import = "plugins.dashboard-nvim" },
@@ -31,7 +32,6 @@ require("lazy").setup({
     { import = "plugins.nvim-surround" },
     { import = "plugins.telescope" },
     { import = "plugins.which-key" },
-    { import = "plugins.lsp.lsp" },
     { import = "plugins.scheme" },
     { import = "plugins.luasnip" },
     { "vim-jp/vimdoc-ja" },
