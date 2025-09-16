@@ -30,7 +30,7 @@ set('v', 'L', '$')
 
 -- all
 set('n', '<Leader>ya', '<Cmd>%y<CR>', { desc = 'All yank' })
-set('n', '<leader>ca', '<Cmd>qa<CR>', { desc = 'All close' })
+set('n', '<leader>qa', '<Cmd>qa<CR>', { desc = 'All close' })
 set('n', '<leader>da', '<Cmd>%d<CR>', { desc = 'All delete' })
 
 -- 保存
