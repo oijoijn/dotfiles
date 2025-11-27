@@ -35,9 +35,12 @@ set('n', '<leader>da', '<Cmd>%d<CR>', { desc = 'All delete' })
 
 -- 保存
 set('n', '<leader>w', '<Cmd>w<CR>')
-set('n', '<leader>q', '<Cmd>q<CR>')
+set('n', '<leader>qq', '<Cmd>q<CR>')
 set('n', '<leader>kk', '<Cmd>q!<CR>')
 set('n', '<leader>x', '<Cmd>x<CR>')
+
+-- コピペ
+set("x", "p", '"_dP')
 
 -- 画面操作
 set('n', '<C-h>', 'gT')
@@ -74,7 +77,6 @@ set({ 'n', 'v' }, '<leader>p', '"ap')
 -- 矩形
 set('n', '<C-A-v>', '<C-v>', { desc = 'Keymap change visual mode' })
 
-
 -- terminal mode
 set('t', '<C-[>', [[<C-\><C-n>]], { desc = 'Exit terminal job mode' })
 
@@ -99,3 +101,28 @@ set("n", "<leader>ki", ":verbose imap ", { noremap = true, desc = "Check Insert-
 set("n", "<leader>kx", ":verbose xmap ", { noremap = true, desc = "Check Visual-mode map (same as vmap)" })
 set("n", "<leader>ks", ":verbose smap ", { noremap = true, desc = "Check Select-mode map" })
 set("n", "<leader>kc", ":verbose cmap ", { noremap = true, desc = "Check Command-mode map" })
+
+-- filepath
+set('n', '<leader>fp', function()
+  -- 現在のファイルのフルパスを取得
+  local file_path = vim.fn.expand('%:p')
+  if file_path == '' or file_path == nil then
+    print("Error: No file name.")
+    return
+  end
+
+  -- init.luaで保存した「起動ディレクトリ」を取得
+  local launch_dir = vim.g.nvim_launch_dir
+
+  local final_path
+  -- 起動ディレクトリがファイルパスの先頭に含まれているかチェック
+  if launch_dir and file_path:find(launch_dir, 1, true) == 1 then
+    -- 含まれていれば、起動ディレクトリからの相対パスを計算
+    final_path = string.sub(file_path, #launch_dir + 2)
+  else
+    -- 含まれていない場合 (関係ない場所のファイルを開いた時など) はファイル名だけを返す
+    final_path = vim.fn.expand('%:t')
+  end
+
+  vim.api.nvim_buf_set_lines(0, 0, 0, false, { final_path })
+end, { desc = "Insert [f]ile [p]ath (launch-dir relative)" })

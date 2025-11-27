@@ -29,6 +29,9 @@ vim.opt.undofile = true
 -- 上書き前のバックアップファイル無効 (基本不要)
 vim.opt.writebackup = false
 
+-- tabを非表示
+vim.opt.showtabline = 0
+
 -- 24bit colorを有効
 -- vim.opt.termguicolors = true
 

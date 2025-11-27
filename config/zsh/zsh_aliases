@@ -8,7 +8,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias cca='mkdir -p ./app domain internal/{repository/mysql,rest} todo/mocks '
+alias cca='mkdir -p cmd/api internal/{config,domain/{model,repository},usecase,adapter/{handler/{dto,middleware},repository,presenter},driver/{logger,database,server}}'
+alias cha='mkdir -p cmd/api internal/{application/{port,dto,usecase},domain/{model,repository},adapter/{inbound,outbound}} pkg/logger'
 # ──────────────────────────────────────────────
 # tmux 関連
 # ──────────────────────────────────────────────
@@ -25,12 +26,14 @@ setup_tmux() {
 
   # q-learning 開発セッション
   if ! tmux has-session -t q-learning 2>/dev/null; then
-    tmux new-session -d -s q-learning -n sotomine
-    tmux send-keys -t q-learning:sotomine "cd \$HOME/workspace/python/q-learning/gemini && source .activate" C-m
-    tmux new-window -t q-learning: -n suruga
-    tmux send-keys -t q-learning:suruga "cd \$HOME/workspace/python/q-learning/suruga && source .activate" C-m
-    tmux new-window -t q-learning: -n takeoka
-    tmux send-keys -t q-learning:takeoka "cd \$HOME/workspace/python/q-learning/takeoka && source .activate" C-m
+    tmux new-session -d -s q-learning -n so1
+    tmux send-keys -t q-learning:so "cd \$HOME/workspace/python/q-learning/gemini && source .activate && nvim ../README.md" C-m
+    tmux new-window -t q-learning: -n so2
+    tmux send-keys -t q-learning:so2 "cd \$HOME/workspace/python/q-learning/gemini && source .activate" C-m
+    tmux new-window -t q-learning: -n su
+    tmux send-keys -t q-learning:su "cd \$HOME/workspace/python/q-learning/suruga && source .activate" C-m
+    tmux new-window -t q-learning: -n ta
+    tmux send-keys -t q-learning:ta "cd \$HOME/workspace/python/q-learning/takeoka && source .activate" C-m
   fi
 
   # 汎用ワークスペース
@@ -66,4 +69,28 @@ devexec() {
     --remote-env "XDG_CONFIG_HOME=/nvim-config" \
     --workspace-folder . \
     /bin/bash -l   # ← -l を付けるだけ
+}
+
+# ──────────────────────────────────────────────
+# k8s
+# ──────────────────────────────────────────────
+alias kdy='k8s_devloyment_yaml'
+alias ksvy='k8s_service_yaml'
+alias kcy='k8s_configmap_yaml'
+alias ksiy='k8s_secret_yaml'
+
+k8s_devloyment_yaml () {
+    kubectl create deployment deployment_yaml --image=nginx:1.20.2 --port=80 --replicas=1 --dry-run=client -o yaml > deploy.yaml
+}
+
+k8s_service_yaml () {
+    kubectl create service clusterip service_yaml --tcp=80:8080 --dry-run=client -o yaml > svc.yaml
+}
+
+k8s_configmap_yaml () {
+    kubectl create configmap config --from-literal=key1=value1 --dry-run=client -o yaml > my-config.yaml
+}
+
+k8s_secret_yaml () {
+    kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password=secret123 --dry-run=client -o yaml > secret.yaml
 }

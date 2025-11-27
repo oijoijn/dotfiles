@@ -26,7 +26,7 @@ require("lazy").setup({
     { import = "plugins.gitsigns" },
     { import = "plugins.lualine" },
     { import = "plugins.mini-indentscope" },
-    { import = "plugins.neo-tree" },
+    -- { import = "plugins.neo-tree" },
     { import = "plugins.noice" },
     { import = "plugins.nvim-hlslens" },
     { import = "plugins.nvim-surround" },

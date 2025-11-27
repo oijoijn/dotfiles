@@ -1,14 +1,21 @@
+-- rest-nvim.lua
 return {
     "rest-nvim/rest.nvim",
     dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-        opts = function(_, opts)
-            opts.ensure_installed = opts.ensure_installed or {}
-            table.insert(opts.ensure_installed, "http")
-        end,
+        -- 'nvim-treesitter' の指定をテーブルで囲み、その中に opts を記述する
+        {
+            "nvim-treesitter/nvim-treesitter",
+            opts = function(_, opts)
+                -- 既存の ensure_installed がなければ作成
+                opts.ensure_installed = opts.ensure_installed or {}
+                -- http パーサーを追加
+                vim.list_extend(opts.ensure_installed, { "http" })
+                return opts
+            end,
+        },
     },
     keys = {
-        { "<leader>rr", "<Cmd>Rest run<CR>", mode = {'n'}, desc = "Run request under the cursor" },
+        { "<leader>rr", "<Cmd>Rest run<CR>", mode = {'n'}, desc = "Run request under thecursor" },
         { "<leader>rl", "<Cmd>Rest last<CR>", mode = {'n'}, desc = "Run last request" },
         { "<leader>rg", "<Cmd>Rest logs<CR>", mode = {'n'}, desc = "Edit logs file" },
         { "<leader>rc", "<Cmd>Rest cookies<CR>", mode = {'n'}, desc = "Edit cookies file" },
