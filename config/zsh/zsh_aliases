@@ -94,3 +94,25 @@ k8s_configmap_yaml () {
 k8s_secret_yaml () {
     kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password=secret123 --dry-run=client -o yaml > secret.yaml
 }
+
+# ──────────────────────────────────────────────
+# docker command 
+# ──────────────────────────────────────────────
+alias dmr='docker_mkdir_react'
+
+docker_mkdir_react () {
+    # 引数がなければ "my-app" をデフォルトにする
+    PROJECT_NAME=${1:-my-app}
+    mkdir PROJECT_NAME
+    cd PROJECT_NAME
+
+    # 解説:
+    # -u $(id -u):$(id -g) -> あなたのユーザーIDで実行させ、ファイルの所有権トラブルを防ぐ
+    # "$PROJECT_NAME"      -> 引数で渡した名前でフォルダを作る
+    docker run --rm \
+        -u "$(id -u):$(id -g)" \
+        -v "$(pwd):/app" \
+        -w /app \
+        node:20.19.6-alpine3.22 \
+        npm create vite@latest "$PROJECT_NAME" -- --template react
+}
