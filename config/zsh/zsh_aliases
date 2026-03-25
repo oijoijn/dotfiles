@@ -1,7 +1,7 @@
 # ──────────────────────────────────────────────
 # 基本 alias
 # ──────────────────────────────────────────────
-alias ni='/snap/bin/nvim'
+alias ni='/usr/local/bin/nvim'
 alias ...='../..'
 alias sl='ls'
 alias ll='ls -alF'
@@ -19,7 +19,7 @@ setup_tmux() {
     tmux new-session -d -s config -n nvim
     tmux send-keys -t config:nvim "cd \$HOME/.config/nvim/lua; nvim " C-m
     tmux new-window -t config: -n tmux
-    tmux send-keys -t config:tmux "cd \$HOME; nvim -p .tmux.conf .zsh_aliases " C-m
+    tmux send-keys -t config:tmux "cd \$HOME/dotfiles; nvim -p ./config/tmux/tmux.conf ./config/zsh/zsh_aliases " C-m
     tmux new-window -t config: -n dotfiles
     tmux send-keys -t config:dotfiles "cd \$HOME/dotfiles/; nvim " C-m
   fi
@@ -27,9 +27,9 @@ setup_tmux() {
   # q-learning 開発セッション
   if ! tmux has-session -t q-learning 2>/dev/null; then
     tmux new-session -d -s q-learning -n so1
-    tmux send-keys -t q-learning:so "cd \$HOME/workspace/python/q-learning/gemini && source .activate && nvim ../README.md" C-m
+    tmux send-keys -t q-learning:so "cd \$HOME/workspace/python/q-learning/q && source .activate && nvim ../README.md" C-m
     tmux new-window -t q-learning: -n so2
-    tmux send-keys -t q-learning:so2 "cd \$HOME/workspace/python/q-learning/gemini && source .activate" C-m
+    tmux send-keys -t q-learning:so2 "cd \/home/so/workspace/python/q-learning/q && source .activate" C-m
     tmux new-window -t q-learning: -n su
     tmux send-keys -t q-learning:su "cd \$HOME/workspace/python/q-learning/suruga && source .activate" C-m
     tmux new-window -t q-learning: -n ta
@@ -56,19 +56,29 @@ alias zr='source ~/.zshrc'
 # ──────────────────────────────────────────────
 # Dev Container + Neovim（個人設定を後乗せ）
 # ──────────────────────────────────────────────
+# alias devset='devsetup'
+# alias devup='devup'
+# alias devexec='devexec'
+
+devsetup () {
+    mkdir -p .devcontainer/nvim-dev 
+    cp .devcontainer/devcontainer.json .devcontainer/nvim-dev/devcontainer.json 
+    echo ".devcontainer/nvim-dev/" >> .gitignore 
+}
 
 devup () {
   devcontainer up \
-    --override-config "$HOME/dotfiles/config/devcontainer/devcontainer.json" \
+    --config .devcontainer/nvim-dev/devcontainer.json \
     --mount "type=bind,source=$HOME/dotfiles/config/nvim,target=/nvim-config/nvim" \
     --workspace-folder .
 }
 
 devexec() {
   devcontainer exec \
+    --config .devcontainer/nvim-dev/devcontainer.json \
     --remote-env "XDG_CONFIG_HOME=/nvim-config" \
     --workspace-folder . \
-    /bin/bash -l   # ← -l を付けるだけ
+    /bin/zsh -l   # ← -l を付けるだけ
 }
 
 # ──────────────────────────────────────────────
@@ -98,21 +108,18 @@ k8s_secret_yaml () {
 # ──────────────────────────────────────────────
 # docker command 
 # ──────────────────────────────────────────────
-alias dmr='docker_mkdir_react'
+alias dr='docker_react'
 
-docker_mkdir_react () {
-    # 引数がなければ "my-app" をデフォルトにする
+docker_react () {
     PROJECT_NAME=${1:-my-app}
-    mkdir PROJECT_NAME
-    cd PROJECT_NAME
 
-    # 解説:
-    # -u $(id -u):$(id -g) -> あなたのユーザーIDで実行させ、ファイルの所有権トラブルを防ぐ
-    # "$PROJECT_NAME"      -> 引数で渡した名前でフォルダを作る
+    mkdir "$PROJECT_NAME"
+    cd "$PROJECT_NAME" || return
+
     docker run --rm \
         -u "$(id -u):$(id -g)" \
         -v "$(pwd):/app" \
         -w /app \
         node:20.19.6-alpine3.22 \
-        npm create vite@latest "$PROJECT_NAME" -- --template react
+        /bin/sh -c "npm create vite@latest . -- --template react-ts && npm install"
 }

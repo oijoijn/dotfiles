@@ -1,3 +1,22 @@
+// .devcontainer/nvim-dev/devcontainer.json
 {
-  "image": "testnvim:v2"
+    "name": "My Env",
+    "remoteUser": "so",
+    "updateRemoteUserUID": true,
+
+    / プロジェクトによって変更あり
+    "dockerComposeFile": "../../docker-compose.yaml", 
+    "service": "app",
+    "workspaceFolder": "/workspace",
+
+    //neovim install command
+    "postCreateCommand": "npm install && apk add --no-cache neovim zsh build-base git curl wget unzip gzip tar clang-extra-tools",
+
+    // ↓↓ ここに自分の設定を追加 ↓↓
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true
+        }
+    }
+
 }

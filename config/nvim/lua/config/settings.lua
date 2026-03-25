@@ -9,6 +9,9 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+-- カーソルの上下に常に999行の余白を確保する（＝常に中央になる）
+vim.opt.scrolloff = 999
+
 -- 検索設定
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -35,9 +38,6 @@ vim.opt.showtabline = 0
 -- 24bit colorを有効
 -- vim.opt.termguicolors = true
 
--- コメントアウトの色
-vim.api.nvim_set_hl(0, "Comment", { fg = "#c2721a", italic = true })
-
 vim.api.nvim_create_autocmd("ColorScheme", {
     pattern = "*",
     callback = function()
@@ -58,3 +58,12 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- vim.opt.termguicolors = true
 -- vim.opt.winblend = 0 -- ウィンドウの不透明度
 -- vim.opt.pumblend = 0 -- ポップアップメニューの不透明度
+
+-- カーソルに横線
+vim.opt.cursorline = true
+
+-- 折り畳み範囲を行単位に変
+-- nvim-treesitter が有効であることを前提とする
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 99 -- デフォルトですべて開いた状態でファイルを開く（編集開始時のストレス軽減）更
