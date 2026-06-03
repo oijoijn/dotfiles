@@ -34,7 +34,7 @@ set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
 # Requires: desktop-backgrounds-compat, swaybg, jxl-pixbuf-loader
 output * bg ~/dotfiles/backgrounds/images/night3.png fill
 # 壁紙を使ってロックする場合
-bindsym $mod+$mod1+l exec swaylock -f -i /home/so/dotfiles/backgrounds/images/raccoon_dog_blue.png -s fill
+bindsym $mod+$mod1+l exec swaylock -f -i /home/$USER/dotfiles/backgrounds/images/raccoon_dog_blue.png -s fill
 #
 # Example configuration:
 #
