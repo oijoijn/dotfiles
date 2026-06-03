@@ -1,0 +1,139 @@
+/* =============================================================================
+ * Waybar Style - Translucent & Rounded (Purple & Green)
+ * =========================================================================== */
+
+/* --- 全体のリセット --- */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Symbols Nerd Font", "Noto Sans JP", monospace;
+    font-size: 14px;
+    min-height: 0;
+}
+
+/* --- バー本体 --- */
+window#waybar {
+    /* 背景：かなり透けた黒 (0.3 = 30%不透明) */
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+    /* 下線は削除して、浮いている感を出す */
+    border-bottom: none; 
+}
+
+/* --- ワークスペース（左側） --- */
+#workspaces button {
+    padding: 0 10px;
+    margin: 4px 2px;
+    color: #ffffff;
+    background-color: transparent;
+    border-radius: 15px; /* 丸みをつける */
+    transition: all 0.3s ease;
+}
+
+/* マウスを乗せた時 */
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inherit;
+}
+
+/* 選択中のワークスペース */
+#workspaces button.focused {
+    /* 半透明の紫 */
+    background-color: rgba(189, 147, 249, 0.6); 
+    color: #ffffff;
+    /* 丸くする */
+    border-radius: 15px;
+}
+
+#workspaces button.urgent {
+    background-color: rgba(255, 85, 85, 0.6);
+}
+
+/* --- ウィンドウタイトル（中央） --- */
+#window {
+    color: #bd93f9;
+    font-weight: bold;
+    /* 背景をつけてもいいが、ここは文字だけでスッキリさせる */
+    background-color: transparent; 
+}
+
+/* --- 右側のモジュール共通設定 --- */
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#power-profiles-daemon,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#sway-language,
+#battery,
+#clock,
+#tray {
+    padding: 0 15px; /* 横幅を広げてカプセル感を出す */
+    margin: 4px 3px; /* モジュール同士の隙間を空ける */
+    color: #ffffff;  /* 文字は白（透ける背景でも見やすく） */
+    font-weight: bold;
+    border-radius: 15px; /* ★ここが丸みの設定 */
+}
+
+/* === 色の割り当て（半透明化：最後の数字 0.6 が透明度） === */
+
+/* 緑グループ（半透明） */
+#network,
+#memory,
+#battery,
+#idle_inhibitor {
+    background-color: rgba(80, 250, 123, 0.6);
+}
+
+/* 紫グループ（半透明） */
+#pulseaudio,
+#cpu,
+#backlight,
+#clock,
+#power-profiles-daemon {
+    background-color: rgba(189, 147, 249, 0.6);
+}
+
+/* 温度（半透明の紫） */
+#temperature {
+    background-color: rgba(189, 147, 249, 0.6);
+}
+#temperature.critical {
+    background-color: rgba(255, 85, 85, 0.8); /* 高温時は赤 */
+}
+
+/* --- バッテリーの特殊状態 --- */
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: rgba(80, 250, 123, 0.6);
+}
+
+#battery.critical:not(.charging) {
+    background-color: rgba(255, 85, 85, 0.8);
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* --- ネットワークの特殊状態 --- */
+#network.disconnected {
+    background-color: rgba(255, 85, 85, 0.6);
+}
+
+/* --- トレイ --- */
+#tray {
+    background-color: rgba(0, 0, 0, 0.3); /* トレイだけ少し暗く */
+}
+
+@keyframes blink {
+    to {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #000000;
+    }
+}

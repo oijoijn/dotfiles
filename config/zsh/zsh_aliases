@@ -1,0 +1,113 @@
+# ──────────────────────────────────────────────
+# 基本 alias
+# ──────────────────────────────────────────────
+alias ni='/usr/bin/nvim'
+alias ...='../..'
+alias sl='ls'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias cca='mkdir -p cmd/api internal/{config,domain/{model,repository},usecase,adapter/{handler/{dto,middleware},repository,presenter},driver/{logger,database,server}}'
+alias cha='mkdir -p cmd/api internal/{application/{port,dto,usecase},domain/{model,repository},adapter/{inbound,outbound}} pkg/logger'
+# ──────────────────────────────────────────────
+# tmux 関連
+# ──────────────────────────────────────────────
+setup_tmux() {
+  # 設定ファイル編集セッション
+  if ! tmux has-session -t config 2>/dev/null; then
+    tmux new-session -d -s config -n nvim
+    tmux send-keys -t config:nvim "cd \$HOME/.config/nvim/lua; nvim " C-m
+    tmux new-window -t config: -n tmux
+    tmux send-keys -t config:tmux "cd \$HOME/dotfiles; nvim -p ./config/tmux/tmux.conf ./config/zsh/zsh_aliases " C-m
+    tmux new-window -t config: -n dotfiles
+    tmux send-keys -t config:dotfiles "cd \$HOME/dotfiles/; nvim " C-m
+  fi
+  
+  # 汎用ワークスペース
+  if ! tmux has-session -t workspase 2>/dev/null; then
+    tmux new-session -d -s workspase -n todo 
+    tmux send-keys   -t workspase:todo 'nvim todo.txt' C-m
+    tmux new-window  -t workspase: -n work
+  fi
+
+  tmux attach -t workspase:todo
+}
+
+alias ts='setup_tmux'
+alias tk='tmux kill-server'
+alias ta='tmux attach-session -t workspase'
+alias kde='kubectl describe'
+alias zr='source ~/.zshrc'
+
+
+# ──────────────────────────────────────────────
+# Dev Container + Neovim（個人設定を後乗せ）
+# ──────────────────────────────────────────────
+# alias devset='devsetup'
+# alias devup='devup'
+# alias devexec='devexec'
+
+devsetup () {
+    mkdir -p .devcontainer/nvim-dev 
+    cp .devcontainer/devcontainer.json .devcontainer/nvim-dev/devcontainer.json 
+    echo ".devcontainer/nvim-dev/" >> .gitignore 
+}
+
+devup () {
+  devcontainer up \
+    --config .devcontainer/nvim-dev/devcontainer.json \
+    --mount "type=bind,source=$HOME/dotfiles/config/nvim,target=/nvim-config/nvim" \
+    --workspace-folder .
+}
+
+devexec() {
+  devcontainer exec \
+    --config .devcontainer/nvim-dev/devcontainer.json \
+    --remote-env "XDG_CONFIG_HOME=/nvim-config" \
+    --workspace-folder . \
+    /bin/zsh -l   # ← -l を付けるだけ
+}
+
+# ──────────────────────────────────────────────
+# k8s
+# ──────────────────────────────────────────────
+alias kdy='k8s_devloyment_yaml'
+alias ksvy='k8s_service_yaml'
+alias kcy='k8s_configmap_yaml'
+alias ksiy='k8s_secret_yaml'
+
+k8s_devloyment_yaml () {
+    kubectl create deployment deployment_yaml --image=nginx:1.20.2 --port=80 --replicas=1 --dry-run=client -o yaml > deploy.yaml
+}
+
+k8s_service_yaml () {
+    kubectl create service clusterip service_yaml --tcp=80:8080 --dry-run=client -o yaml > svc.yaml
+}
+
+k8s_configmap_yaml () {
+    kubectl create configmap config --from-literal=key1=value1 --dry-run=client -o yaml > my-config.yaml
+}
+
+k8s_secret_yaml () {
+    kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password=secret123 --dry-run=client -o yaml > secret.yaml
+}
+
+# ──────────────────────────────────────────────
+# docker command 
+# ──────────────────────────────────────────────
+alias dr='docker_react'
+
+docker_react () {
+    PROJECT_NAME=${1:-my-app}
+
+    mkdir "$PROJECT_NAME"
+    cd "$PROJECT_NAME" || return
+
+    docker run --rm \
+        -u "$(id -u):$(id -g)" \
+        -v "$(pwd):/app" \
+        -w /app \
+        node:20.19.6-alpine3.22 \
+        /bin/sh -c "npm create vite@latest . -- --template react-ts && npm install"
+}

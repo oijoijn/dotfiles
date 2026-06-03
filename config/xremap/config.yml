@@ -1,0 +1,24 @@
+modmap:
+  - name: Global Caps-Ctrl Swap
+    remap:
+      CapsLock: Control_L
+      Control_L: CapsLock
+      Alt_R: Super_R
+
+keymap:
+  - name: Global Mappings
+    remap:
+      C-LeftBrace: Esc
+
+  - name: Brave Remaps
+    application:
+      only: [brave-browser, Brave-browser]
+    remap:
+      C-h: Alt-Left
+      C-l: Alt-Right
+      C-j: C-Tab
+      C-k: C-Shift-Tab
+      Shift-h: Left
+      Shift-j: Down
+      Shift-k: Up
+      Shift-l: Right

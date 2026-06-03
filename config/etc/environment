@@ -1,0 +1,6 @@
+im=fcitx
+GTK_IM_MODULE=$im
+QT_IM_MODULE=$im
+XMODIFIERS=@im=$im
+SDL_IM_MODULE=$im
+GLFW_IM_MODULE=$im
