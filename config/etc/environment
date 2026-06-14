@@ -1,6 +1,10 @@
 im=fcitx
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark
 GTK_IM_MODULE=$im
 QT_IM_MODULE=$im
 XMODIFIERS=@im=$im
 SDL_IM_MODULE=$im
 GLFW_IM_MODULE=$im
+MZENABLE_WAYLAND=1
