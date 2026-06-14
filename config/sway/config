@@ -282,3 +282,9 @@ focus_follows_mouse no
 # Alt + ↑ / ↓ による明るさ制御
 bindsym $mod1+Up exec brightnessctl set +5%
 bindsym $mod1+Down exec brightnessctl set 5%-
+
+# sway theme
+include ~/.config/sway/deep-harbor.conf
+
+# usb
+exec udiskie --notifications

@@ -1,65 +1,104 @@
-/* =============================================================================
- * Waybar Style - Translucent & Rounded (Purple & Green)
- * =========================================================================== */
+/* ============================================================
+ * Waybar style — "Deep Harbor" (濃紺 × 水色)
+ * 配置先: ~/.config/waybar/style.css
+ *
+ * パレット:
+ *   #0B1220 ベース最深   #101A2C パネル   #18283F サーフェス
+ *   #22395A 控えめ枠     #D9E6F2 文字     #64789A 補助文字
+ *   #7DD3FC アクセント   #38BDF8 アクセント深
+ *   #E8C07D 警告         #F27D8D 危険
+ * ============================================================ */
 
-/* --- 全体のリセット --- */
 * {
-    border: none;
-    border-radius: 0;
-    font-family: "Symbols Nerd Font", "Noto Sans JP", monospace;
-    font-size: 14px;
+    font-family: "JetBrainsMono Nerd Font", "IBM Plex Sans JP",
+                 "Noto Sans CJK JP", "Font Awesome 6 Free", sans-serif;
+    font-size: 13px;
     min-height: 0;
 }
 
-/* --- バー本体 --- */
 window#waybar {
-    /* 背景：かなり透けた黒 (0.3 = 30%不透明) */
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #ffffff;
-    transition-property: background-color;
-    transition-duration: .5s;
-    /* 下線は削除して、浮いている感を出す */
-    border-bottom: none; 
+    background: rgba(11, 18, 32, 0.88);              /* #0B1220 半透明 */
+    color: #D9E6F2;
+    border: 1px solid rgba(125, 211, 252, 0.16);     /* 細い水色の縁 */
+    border-radius: 12px;
 }
 
-/* --- ワークスペース（左側） --- */
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+tooltip {
+    background: #101A2C;
+    border: 1px solid #22395A;
+    border-radius: 10px;
+}
+
+tooltip label {
+    color: #D9E6F2;
+    padding: 4px;
+}
+
+/* ---------- 左: ワークスペース ---------- */
+
+#workspaces {
+    background: rgba(24, 40, 63, 0.55);              /* #18283F */
+    border-radius: 10px;
+    margin: 4px 4px 4px 8px;
+    padding: 0 3px;
+}
+
 #workspaces button {
-    padding: 0 10px;
-    margin: 4px 2px;
-    color: #ffffff;
-    background-color: transparent;
-    border-radius: 15px; /* 丸みをつける */
-    transition: all 0.3s ease;
+    padding: 0 9px;
+    margin: 3px 1px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #64789A;
+    transition: all 0.25s ease;
 }
 
-/* マウスを乗せた時 */
 #workspaces button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: inherit;
+    background: rgba(125, 211, 252, 0.10);
+    color: #D9E6F2;
+    box-shadow: none;
+    text-shadow: none;
 }
 
-/* 選択中のワークスペース */
+/* フォーカス中だけ水色に発光 = このテーマの主役 */
 #workspaces button.focused {
-    /* 半透明の紫 */
-    background-color: rgba(189, 147, 249, 0.6); 
-    color: #ffffff;
-    /* 丸くする */
-    border-radius: 15px;
+    background: #7DD3FC;
+    color: #0B1220;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(125, 211, 252, 0.45);
 }
 
 #workspaces button.urgent {
-    background-color: rgba(255, 85, 85, 0.6);
+    background: #F27D8D;
+    color: #0B1220;
 }
 
-/* --- ウィンドウタイトル（中央） --- */
+#mode {
+    background: #E8C07D;
+    color: #0B1220;
+    font-weight: 700;
+    border-radius: 8px;
+    margin: 4px 2px;
+    padding: 0 10px;
+}
+
+#scratchpad {
+    color: #64789A;
+    padding: 0 8px;
+}
+
+/* ---------- 中央: ウィンドウタイトル ---------- */
+
 #window {
-    color: #bd93f9;
-    font-weight: bold;
-    /* 背景をつけてもいいが、ここは文字だけでスッキリさせる */
-    background-color: transparent; 
+    color: #94A8C4;
 }
 
-/* --- 右側のモジュール共通設定 --- */
+/* ---------- 右: モジュール共通 ---------- */
+
 #idle_inhibitor,
 #pulseaudio,
 #network,
@@ -68,72 +107,69 @@ window#waybar {
 #memory,
 #temperature,
 #backlight,
-#sway-language,
+#language,
 #battery,
-#clock,
-#tray {
-    padding: 0 15px; /* 横幅を広げてカプセル感を出す */
-    margin: 4px 3px; /* モジュール同士の隙間を空ける */
-    color: #ffffff;  /* 文字は白（透ける背景でも見やすく） */
-    font-weight: bold;
-    border-radius: 15px; /* ★ここが丸みの設定 */
+#tray,
+#clock {
+    padding: 0 10px;
+    margin: 4px 0;
+    background: transparent;
+    color: #D9E6F2;
 }
 
-/* === 色の割り当て（半透明化：最後の数字 0.6 が透明度） === */
+/* 控えめな色分け (主張しすぎない) */
+#idle_inhibitor           { color: #64789A; }
+#idle_inhibitor.activated { color: #7DD3FC; }
+#language                 { color: #64789A; }
+#power-profiles-daemon    { color: #94A8C4; }
 
-/* 緑グループ（半透明） */
-#network,
-#memory,
-#battery,
-#idle_inhibitor {
-    background-color: rgba(80, 250, 123, 0.6);
-}
+#pulseaudio.muted         { color: #64789A; }
+#network.disconnected     { color: #F27D8D; }
 
-/* 紫グループ（半透明） */
-#pulseaudio,
-#cpu,
-#backlight,
-#clock,
-#power-profiles-daemon {
-    background-color: rgba(189, 147, 249, 0.6);
-}
+/* メモリ: config 側の states (70% / 90%) と連動 */
+#memory.warning           { color: #E8C07D; }
+#memory.critical          { color: #F27D8D; }
 
-/* 温度（半透明の紫） */
-#temperature {
-    background-color: rgba(189, 147, 249, 0.6);
-}
-#temperature.critical {
-    background-color: rgba(255, 85, 85, 0.8); /* 高温時は赤 */
-}
+#temperature.critical     { color: #F27D8D; }
 
-/* --- バッテリーの特殊状態 --- */
-#battery.charging, #battery.plugged {
-    color: #ffffff;
-    background-color: rgba(80, 250, 123, 0.6);
-}
-
+#battery.charging,
+#battery.plugged          { color: #38BDF8; }
+#battery.warning:not(.charging)  { color: #E8C07D; }
 #battery.critical:not(.charging) {
-    background-color: rgba(255, 85, 85, 0.8);
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-/* --- ネットワークの特殊状態 --- */
-#network.disconnected {
-    background-color: rgba(255, 85, 85, 0.6);
-}
-
-/* --- トレイ --- */
-#tray {
-    background-color: rgba(0, 0, 0, 0.3); /* トレイだけ少し暗く */
+    color: #F27D8D;
+    animation: blink 1s steps(8) infinite alternate;
 }
 
 @keyframes blink {
-    to {
-        background-color: rgba(255, 255, 255, 0.8);
-        color: #000000;
-    }
+    to { color: #D9E6F2; }
+}
+
+/* クリックできるモジュールはホバーで分かるように */
+#pulseaudio:hover,
+#memory:hover,
+#clock:hover {
+    background: rgba(125, 211, 252, 0.08);
+    border-radius: 8px;
+}
+
+/* 時計 = 右端のアクセントピル */
+#clock {
+    background: rgba(125, 211, 252, 0.14);
+    color: #7DD3FC;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 4px 8px 4px 4px;
+    padding: 0 13px;
+}
+
+#tray {
+    padding: 0 6px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
 }

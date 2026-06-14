@@ -1,0 +1,22 @@
+# ============================================================
+#  mako (通知) — "Deep Harbor" (濃紺 × 水色)
+#  配置先: ~/.config/mako/config  ← ファイル名は拡張子なしの "config"
+#  反映: makoctl reload
+# ============================================================
+
+font=IBM Plex Sans JP 11
+background-color=#101A2CF2
+text-color=#D9E6F2
+border-color=#7DD3FC
+border-size=2
+border-radius=10
+padding=12
+margin=8
+width=360
+max-icon-size=48
+default-timeout=6000
+progress-color=over #38BDF8
+
+[urgency=critical]
+border-color=#F27D8D
+default-timeout=0
