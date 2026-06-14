@@ -22,3 +22,16 @@ keymap:
       Shift-j: Down
       Shift-k: Up
       Shift-l: Right
+
+  - name: Firefox Remaps
+    application:
+      only: [firefox, org.mozilla.firefox]
+    remap:
+      C-h: Alt-Left
+      C-l: Alt-Right
+      C-j: C-Tab
+      C-k: C-Shift-Tab
+      Shift-h: Left
+      Shift-j: Down
+      Shift-k: Up
+      Shift-l: Right
