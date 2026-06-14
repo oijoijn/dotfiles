@@ -37,5 +37,6 @@ require("lazy").setup({
     { import = "plugins.scheme" },
     { import = "plugins.lualine" },
     { import = "plugins.luasnip" },
+    { import = "plugins.kdheepak-lazygit" },
   },
 })
