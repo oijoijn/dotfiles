@@ -251,10 +251,6 @@ exec wl-paste --watch clipman store
 # Win + y でクリップボード履歴を表示（fuzzelを使う例）
 bindsym Mod4+y exec clipman pick -t fuzzel
 
-# xremapの場所を which xremap で確認し、フルパスで記述
-exec sleep 2 && /usr/bin/xremap ~/.config/xremap/config.yml
-# nohup xremap ~/.config/xremap/config.yml > /dev/null 2>&1 &
-
 exec swayidle -w \
     timeout 300 'swaymsg "output * power off"' \
     resume 'swaymsg "output * power on"'
